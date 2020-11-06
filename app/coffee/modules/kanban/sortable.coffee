@@ -90,6 +90,11 @@ KanbanSortableDirective = ($repo, $rs, $rootscope, kanbanUserstoriesService) ->
                     dragMultipleItems = [item]
 
                 firstElement = dragMultipleItems[0]
+
+                previousCard = null
+                if firstElement.previousElementSibling.dataset.id
+                    previousCard = Number(firstElement.previousElementSibling.dataset.id)
+
                 index = $(parentEl).find('tg-card').index(firstElement)
                 newStatus = Number(parentEl.dataset.statusId)
                 newSwimlane = Number(parentEl.dataset.swimlane)
@@ -120,7 +125,7 @@ KanbanSortableDirective = ($repo, $rs, $rootscope, kanbanUserstoriesService) ->
                             itemEl = $(dragMultipleItems[key])
                             deleteElement(itemEl)
 
-                    $rootscope.$broadcast("kanban:us:move", finalUsList, newStatus, newSwimlane, index)
+                    $rootscope.$broadcast("kanban:us:move", finalUsList, newStatus, newSwimlane, index, previousCard)
 
             scroll = autoScroll(containers, {
                 margin: 100,
